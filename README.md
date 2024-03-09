@@ -5,7 +5,7 @@ open interest and change in open interest chart.
 some Ratio sprade strategy where they can take low risk trade
 currently only Nifty, Bank nifty and Finnifty option chart suppots this app but in future we can go for stock option too.
 
-#Data collection 
+# Data collection 
 all the option data has collected from nsepy opensours library. so I thank this library creator. 
 and also streamlit because without streamlit this kind of webapp creation is impossible only rely on python.
 # furure Objective
