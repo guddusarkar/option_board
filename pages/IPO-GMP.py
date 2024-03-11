@@ -29,7 +29,11 @@ if table:
 
     # Convert the table data into a DataFrame
     df = pd.DataFrame(table_data[1:], columns=table_data[0])
-
+    df=df.rename(columns={'IPO':'Company'})
+    df= df.filter(items=['Company', 'Price', 'GMP(₹)', 'Est Listing','Open', 'Close', 'BoA Dt', 'Listing'])
+    df['GMP%'] = df['Est Listing'].str.extract(r'\((.*?)\)')
+    df= df.dropna()
+    
     # Print the DataFrame streamlit page
     st.table(df)
 else:
