@@ -7,7 +7,7 @@ import pandas as pd
 import streamlit as st
 
 # add title of the web-app 
-st.title('Suman Capz **Option Dashboard**')
+st.title(':green[Suman Capz] **Option Dashboard**')
 st.header('option analysis',divider='rainbow')
 
 #create some tab for option analysis
