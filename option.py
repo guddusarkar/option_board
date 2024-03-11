@@ -1,7 +1,6 @@
 from nselib import derivatives
 from nselib import capital_market
 from datetime import datetime
-import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 import time
