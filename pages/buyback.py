@@ -32,7 +32,7 @@ if table:
 
     # Convert the table data into a DataFrame
     df = pd.DataFrame(table_data[1:], columns=table_data[0])
-
+    df=df.drop(columns='Compare')
     # Print the DataFrame in streamlit as table
     st.table(df)
 else:
