@@ -34,106 +34,105 @@ if st.sidebar.button('submit'):
         range = (int(np.round(cmp / 50.0)) * 50)+900,(int(np.round(cmp / 50.0)) * 50)-900
         oi = o.loc[range[1]:range[0]]
     with tab1:
-        st.subheader('Option chain')
-        st.dataframe(o)
+      st.subheader('Option chain')
+      st.dataframe(oi)
     with tab2:
-        st.subheader('Open interest analysis')
-        fig, ax = plt.subplots(2, 1)
-        ax[0].bar(oi.index, oi['CALLS_OI'], color='blue', width=20)
-        ax[0].bar(oi.index - 10, oi['PUTS_OI'], color='red', width=20)
-        ax[0].axvline(x=cmp, color='black', linestyle='--')
-        ax[0].set_title('OI position')
-        ax[1].bar(oi.index, oi['CALLS_Chng_in_OI'], color='blue', width=20)
-        ax[1].bar(oi.index - 10, oi['PUTS_Chng_in_OI'], color='red', width=20)
-        ax[1].axvline(x=cmp, color='black', linestyle='--')
-        # ax[1].set_title('Change in OI')
-        st.pyplot(fig)
+      
+      st.subheader('Open interest analysis')
+      fig, ax = plt.subplots(2, 1)
+      ax[0].bar(oi.index, oi['CALLS_OI'], color='blue', width=20)
+      ax[0].bar(oi.index - 10, oi['PUTS_OI'], color='red', width=20)
+      ax[0].axvline(x=cmp, color='black', linestyle='--')
+      ax[0].set_title('OI position')
+      ax[1].bar(oi.index, oi['CALLS_Chng_in_OI'], color='blue', width=20)
+      ax[1].bar(oi.index - 10, oi['PUTS_Chng_in_OI'], color='red', width=20)
+      ax[1].axvline(x=cmp, color='black', linestyle='--')
+      # ax[1].set_title('Change in OI')
+      st.pyplot(fig)
     if index =="NIFTY":
-        call = pd.DataFrame()
-        call['CALLS 50 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-1)) * 2)
-        call['CALLS 100 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-2)) * 2)
-        call['CALLS 150 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-3)) * 2)
-        call['CALLS 200 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-4)) * 2)
-        call['CALLS 250 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-5)) * 2)
-        call['CALLS 300 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-6)) * 2)
-        call = call[call.index > cmp].dropna().iloc[:12]
-        put = pd.DataFrame()
-        put['PUTS 50 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(1)) * 2)
-        put['PUTS 100 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(2)) * 2)
-        put['PUTS 150 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(3)) * 2)
-        put['PUTS 200 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(4)) * 2)
-        put['PUTS 250 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(5)) * 2)
-        put['PUTS 300 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(6)) * 2)
-        put = put[put.index < cmp].dropna().iloc[-12:]
-        ratio = pd.concat([put, call])
-    
-        def color_range(val):
-            color = 'red' if 0.5 <= val <= 8 else 'black'
-            return f'color: {color}'
-    
-        ratio = ratio.style.applymap(color_range)
-        with tab3:
-            st.subheader('Ratio Sprade strategy')
-            st.dataframe(ratio)
+      
+      call = pd.DataFrame()
+      call['CALLS 50 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-1)) * 2)
+      call['CALLS 100 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-2)) * 2)
+      call['CALLS 150 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-3)) * 2)
+      call['CALLS 200 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-4)) * 2)
+      call['CALLS 250 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-5)) * 2)
+      call['CALLS 300 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-6)) * 2)
+      call = call[call.index > cmp].dropna().iloc[:12]
+      put = pd.DataFrame()
+      put['PUTS 50 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(1)) * 2)
+      put['PUTS 100 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(2)) * 2)
+      put['PUTS 150 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(3)) * 2)
+      put['PUTS 200 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(4)) * 2)
+      put['PUTS 250 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(5)) * 2)
+      put['PUTS 300 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(6)) * 2)
+      put = put[put.index < cmp].dropna().iloc[-12:]
+      ratio = pd.concat([put, call])
+  
+      def color_range(val):
+          color = 'red' if 0.5 <= val <= 8 else 'black'
+          return f'color: {color}'
+  
+      ratio = ratio.style.applymap(color_range)
+     
     elif index== 'BANKNIFTY':
-        call = pd.DataFrame()
-        call['CALLS 100 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-1)) * 2)
-        call['CALLS 200 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-2)) * 2)
-        call['CALLS 300 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-3)) * 2)
-        call['CALLS 400 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-4)) * 2)
-        call['CALLS 500 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-5)) * 2)
-        call['CALLS 600 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-6)) * 2)
-        call = call[call.index > cmp].dropna().iloc[:12]
-        put = pd.DataFrame()
-        put['PUTS 100 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(1)) * 2)
-        put['PUTS 200 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(2)) * 2)
-        put['PUTS 300 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(3)) * 2)
-        put['PUTS 400 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(4)) * 2)
-        put['PUTS 500 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(5)) * 2)
-        put['PUTS 600 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(6)) * 2)
-        put = put[put.index < cmp].dropna().iloc[-12:]
-        ratio = pd.concat([put, call])
-    
-        def color_range(val):
-            color = 'red' if 0.5 <= val <= 8 else 'black'
-            return f'color: {color}'
-    
-        ratio = ratio.style.applymap(color_range)
-        with tab3:
-            st.subheader('Ration Sprade strategy')
-            st.dataframe(ratio)
+      
+      call = pd.DataFrame()
+      call['CALLS 100 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-1)) * 2)
+      call['CALLS 200 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-2)) * 2)
+      call['CALLS 300 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-3)) * 2)
+      call['CALLS 400 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-4)) * 2)
+      call['CALLS 500 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-5)) * 2)
+      call['CALLS 600 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-6)) * 2)
+      call = call[call.index > cmp].dropna().iloc[:12]
+      put = pd.DataFrame()
+      put['PUTS 100 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(1)) * 2)
+      put['PUTS 200 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(2)) * 2)
+      put['PUTS 300 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(3)) * 2)
+      put['PUTS 400 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(4)) * 2)
+      put['PUTS 500 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(5)) * 2)
+      put['PUTS 600 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(6)) * 2)
+      put = put[put.index < cmp].dropna().iloc[-12:]
+      ratio = pd.concat([put, call])
+  
+      def color_range(val):
+          color = 'red' if 0.5 <= val <= 8 else 'black'
+          return f'color: {color}'
+  
+      ratio = ratio.style.applymap(color_range)
+        
     else:
-        call = pd.DataFrame()
-        call['CALLS 50 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-1)) * 2)
-        call['CALLS 100 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-2)) * 2)
-        call['CALLS 150 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-3)) * 2)
-        call['CALLS 200 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-4)) * 2)
-        call['CALLS 250 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-5)) * 2)
-        call['CALLS 300 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-6)) * 2)
-        call = call[call.index > cmp].dropna().iloc[:12]
-        put = pd.DataFrame()
-        put['PUTS 50 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(1)) * 2)
-        put['PUTS 100 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(2)) * 2)
-        put['PUTS 150 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(3)) * 2)
-        put['PUTS 200 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(4)) * 2)
-        put['PUTS 250 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(5)) * 2)
-        put['PUTS 300 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(6)) * 2)
-        put = put[put.index < cmp].dropna().iloc[-12:]
-        ratio = pd.concat([put, call])
-    
-    
-        def color_range(val):
-            color = 'red' if 0.5 <= val <= 8 else 'black'
-            return f'color: {color}'
-    
-    
-        ratio = ratio.style.applymap(color_range)
-        with tab3:
-            st.subheader('Ration Sprade strategy')
-            st.dataframe(ratio)
+      
+      call = pd.DataFrame()
+      call['CALLS 50 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-1)) * 2)
+      call['CALLS 100 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-2)) * 2)
+      call['CALLS 150 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-3)) * 2)
+      call['CALLS 200 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-4)) * 2)
+      call['CALLS 250 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-5)) * 2)
+      call['CALLS 300 sprade'] = o['CALLS_LTP'] - ((o['CALLS_LTP'].shift(-6)) * 2)
+      call = call[call.index > cmp].dropna().iloc[:12]
+      put = pd.DataFrame()
+      put['PUTS 50 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(1)) * 2)
+      put['PUTS 100 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(2)) * 2)
+      put['PUTS 150 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(3)) * 2)
+      put['PUTS 200 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(4)) * 2)
+      put['PUTS 250 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(5)) * 2)
+      put['PUTS 300 sprade'] = o['PUTS_LTP'] - ((o['PUTS_LTP'].shift(6)) * 2)
+      put = put[put.index < cmp].dropna().iloc[-12:]
+      ratio = pd.concat([put, call])
+  
+  
+      def color_range(val):
+          color = 'red' if 0.5 <= val <= 8 else 'black'
+          return f'color: {color}'
+  
+  
+      ratio = ratio.style.applymap(color_range)
+    with tab3:
+        st.subheader('Ration Sprade strategy')
+        st.dataframe(ratio)
     pcr= np.round(o.PUTS_OI.sum()/o.CALLS_OI.sum(),2)
     st.write('**PCR:**',pcr)
     st.write(index,cmp)
   except:
     st.text("select accurate expiry date")
-st.selectbox('expiry date',derivatives.expiry_dates_option_index()[index])
