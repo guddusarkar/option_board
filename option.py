@@ -14,7 +14,7 @@ st.header('option analysis',divider='rainbow')
 tab1, tab2,tab3 = st.tabs(["option chain","OI",'Ratio strategy'])
 
 # create side bar to select index instrument and for expiry day selection
-index= st.sidebar.selectbox("select index name",('NIFTY',"BANKNIFTY","FINNIFTY"))
+index= st.sidebar.selectbox("select index name",('NIFTY',"BANKNIFTY","FINNIFTY"),placeholder="Select index...")
 exp= st.sidebar.date_input('Expiry date',value=None,format='DD-MM-YYYY')
 if st.sidebar.button('submit'):
   
