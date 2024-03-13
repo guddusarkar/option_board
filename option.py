@@ -15,7 +15,7 @@ tab1, tab2,tab3 = st.tabs(["option chain","OI",'Ratio strategy'])
 
 # create side bar to select index instrument and for expiry day selection
 index= st.sidebar.selectbox("select index name",('NIFTY',"BANKNIFTY","FINNIFTY"))
-exp= st.sidebar.date_input('Expiry date',value=None,format='DD-MM-YYYY')
+exp= st.sidebar.date_input('Expiry date',format='DD-MM-YYYY')
 
 #extracting data from nselib library
 try:
