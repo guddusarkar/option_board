@@ -36,10 +36,11 @@ try:
 except:
   st.text("select accurate expiry date")
   
-with tab1:
+  with tab1:
     st.subheader('Option chain')
     st.write('Expiry date:', exp)
     st.table(o)
+
 with tab2:
     st.subheader('Open interest analysis')
     fig, ax = plt.subplots(2, 1)
@@ -132,9 +133,10 @@ else:
 
 
     ratio = ratio.style.applymap(color_range)
-    with tab3:
-        st.subheader('Ration Sprade strategy')
-        st.dataframe(ratio)
+with tab3:
+  st.subheader('Ration Sprade strategy')
+  st.dataframe(ratio)
+        
 pcr= np.round(o.PUTS_OI.sum()/o.CALLS_OI.sum(),2)
 st.write('**PCR:**',pcr)
 st.write(index,cmp)
