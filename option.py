@@ -36,10 +36,10 @@ try:
 except:
   st.text("select accurate expiry date")
   
-  with tab1:
-    st.subheader('Option chain')
-    st.write('Expiry date:', exp)
-    st.table(o)
+with tab1:
+  st.subheader('Option chain')
+  st.write('Expiry date:', exp)
+  st.table(o)
 
 with tab2:
     st.subheader('Open interest analysis')
