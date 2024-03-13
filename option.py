@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-# add title of the web-app 
+# add title of the web-app
 st.title(':green[Suman Capz] **Option Dashboard**')
 st.header('option analysis',divider='rainbow')
 
@@ -14,7 +14,7 @@ st.header('option analysis',divider='rainbow')
 tab1, tab2,tab3 = st.tabs(["option chain","OI",'Ratio strategy'])
 
 # create side bar to select index instrument and for expiry day selection
-index= st.sidebar.selectbox("select index name",('NIFTY',"BANKNIFTY","FINNIFTY"), placeholder= "Select index...")
+index= st.sidebar.selectbox("select index name",('NIFTY',"BANKNIFTY","FINNIFTY"))
 exp= st.sidebar.date_input('Expiry date',value=None,format='DD-MM-YYYY')
 if st.sidebar.button('submit'):
   #extracting data from nselib library 
@@ -133,4 +133,5 @@ if st.sidebar.button('submit'):
   pcr= np.round(o.PUTS_OI.sum()/o.CALLS_OI.sum(),2)
   st.write('**PCR:**',pcr)
   st.write(index,cmp)
-  
+datta= np.array(derivatives.expiry_dates_option_index()[index])
+st.selectbox('expirt date',datta)
