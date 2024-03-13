@@ -133,5 +133,4 @@ if st.sidebar.button('submit'):
   pcr= np.round(o.PUTS_OI.sum()/o.CALLS_OI.sum(),2)
   st.write('**PCR:**',pcr)
   st.write(index,cmp)
-datta= np.array(derivatives.expiry_dates_option_index()[index])
-st.selectbox('expirt date',datta)
+
