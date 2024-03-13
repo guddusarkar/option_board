@@ -136,4 +136,4 @@ if st.sidebar.button('submit'):
     st.write(index,cmp)
   except:
     st.text("select accurate expiry date")
-st.selectbox(expiry date,derivatives.expiry_dates_option_index()[index])
+st.selectbox('expiry date',derivatives.expiry_dates_option_index()[index])
