@@ -23,15 +23,15 @@ try:
   o=option[['CALLS_OI', 'CALLS_Chng_in_OI','CALLS_LTP','Strike_Price','PUTS_LTP','PUTS_Chng_in_OI', 'PUTS_OI']].set_index('Strike_Price')
   if index =='NIFTY':
     cmp=capital_market.market_watch_all_indices().set_index('index').loc['NIFTY 50','last']
-    range=(int(np.round(cmp / 50.0)) * 50)+500,(int(np.round(cmp / 50.0)) * 50)-500
+    range=(int(np.round(cmp / 50.0)) * 50)+1000,(int(np.round(cmp / 50.0)) * 50)-1000
     oi=o.loc[range[1]:range[0]]
   elif index == 'BANKNIFTY':
     cmp=capital_market.market_watch_all_indices().set_index('index').loc['NIFTY BANK','last']
-    range=(int(np.round(cmp/100.0)) *100)+7000,(int(np.round(cmp / 100.0)) * 100)-7000
+    range=(int(np.round(cmp/100.0)) *100)+1500,(int(np.round(cmp / 100.0)) * 100)-1500
     oi=o.loc[range[1]:range[0]]
   else:
     cmp = capital_market.market_watch_all_indices().set_index('index').loc['NIFTY FINANCIAL SERVICES', 'last']
-    range = (int(np.round(cmp / 50.0)) * 50)+400,(int(np.round(cmp / 50.0)) * 50)-400
+    range = (int(np.round(cmp / 50.0)) * 50)+1000,(int(np.round(cmp / 50.0)) * 50)-1000
     oi = o.loc[range[1]:range[0]]
 except:
   st.text("select accurate expiry date")
