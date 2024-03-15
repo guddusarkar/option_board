@@ -37,7 +37,7 @@ if st.sidebar.button('submit'):
       oi = o.loc[range[1]:range[0]]
   with tab1:
     st.subheader('Option chain')
-    st.dataframe(oi)
+    st.table(oi)
   with tab2:
     
     st.subheader('Open interest analysis')
@@ -132,7 +132,7 @@ if st.sidebar.button('submit'):
     ratio = ratio.style.applymap(color_range)
   with tab3:
       st.subheader('Ration Sprade strategy')
-      st.dataframe(ratio)
+      st.table(ratio)
   pcr= np.round(o.PUTS_OI.sum()/o.CALLS_OI.sum(),2)
   st.write('**PCR:**',pcr)
   st.write(index,cmp)
