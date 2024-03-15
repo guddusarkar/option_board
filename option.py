@@ -18,8 +18,11 @@ index= st.sidebar.selectbox("select index name",('NIFTY',"BANKNIFTY","FINNIFTY")
 exp= st.sidebar.date_input('Expiry date',value=None,format='DD-MM-YYYY')
 if st.sidebar.button('submit'):
   #extracting data from nselib library 
-  option=derivatives.nse_live_option_chain(index,exp)
-  o=option[['CALLS_OI', 'CALLS_Chng_in_OI','CALLS_LTP','Strike_Price','PUTS_LTP','PUTS_Chng_in_OI', 'PUTS_OI']].set_index('Strike_Price')
+  try:
+    option=derivatives.nse_live_option_chain(index,exp)
+    o=option[['CALLS_OI', 'CALLS_Chng_in_OI','CALLS_LTP','Strike_Price','PUTS_LTP','PUTS_Chng_in_OI', 'PUTS_OI']].set_index('Strike_Price')
+  except:
+    st.text('Please select accurate expiry date')
   if index =='NIFTY':
     cmp=capital_market.market_watch_all_indices().set_index('index').loc['NIFTY 50','last']
     range=(int(np.round(cmp / 50.0)) * 50)+1000,(int(np.round(cmp / 50.0)) * 50)-1000
