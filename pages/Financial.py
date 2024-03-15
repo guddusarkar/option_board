@@ -20,18 +20,18 @@ with st.sidebar.form('formes'):
                 tables = pd.read_html(f"https://www.screener.in/company/{stock}/")
             with tab1:
                 st.subheader('Y-o-Y Balance sheet')
-                st.dataframe(tables[6],hide_index=true,use_container_width=true)
+                st.table(tables[6])
             with tab2:
                 st.subheader('Y-o-Y Profit and Loss statment')
-                st.dataframe(tables[1],hide_index=true,use_container_width=true)
+                st.table(tables[1])
             with tab3:
                 st.subheader('Q-o-Q Profit and Loss statment')
-                st.dataframe(tables[0], hide_index=true,use_container_width=true)
+                st.table(tables[0])
             with tab4:
                 st.subheader('Y-o-Y Cash folw statment')
-                st.dataframe(tables[7], hide_index=true,use_container_width=true)
+                st.table(tables[7])
             with tab5:
                 st.subheader('Owner Share holding Pattern')
-                st.dataframe(tables[9], hide_index=true,use_container_width=true)
+                st.table(tables[9])
         except:
-            st.text('please write correct symble')
+            st.text('** please write correct symble name**')
