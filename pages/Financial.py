@@ -20,7 +20,7 @@ with st.sidebar.form('formes'):
                 tables = pd.read_html(f"https://www.screener.in/company/{stock}/")
             with tab1:
                 st.subheader('Y-o-Y Balance sheet')
-                st.dataframe(tables[6], hide_index=True)
+                st.dataframe(tables[6], width=14, hight=8 hide_index=True)
             with tab2:
                 st.subheader('Y-o-Y Profit and Loss statment')
                 st.dataframe(tables[1], use_container_width= True, hide_index=True)
