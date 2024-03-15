@@ -34,4 +34,4 @@ with st.sidebar.form('formes'):
                 st.subheader('Owner Share holding Pattern')
                 st.table(tables[9])
         except:
-            st.text('** please write correct symble name**')
+            st.text('please write correct symble')
