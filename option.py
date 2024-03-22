@@ -2,6 +2,7 @@
 from nselib import derivatives
 from nselib import capital_market
 import matplotlib.pyplot as plt
+from datetime import datetime
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -15,7 +16,8 @@ tab1, tab2,tab3 = st.tabs(["option chain","OI",'Ratio strategy'])
 
 # create side bar to select index instrument and for expiry day selection
 index= st.sidebar.selectbox("select index name",('NIFTY',"BANKNIFTY","FINNIFTY"))
-exp= st.sidebar.date_input('Expiry date',value=None,format='DD-MM-YYYY')
+ex= st.sidebar.selectbox('select expiry date',derivatives.expiry_dates_option_index()[index])
+exp=datetime.strptime(ex,'%d-%b-%Y').strftime('%d-%m-%Y')
 if st.sidebar.button('submit'):
   #extracting data from nselib library 
   try:
