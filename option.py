@@ -50,7 +50,7 @@ if st.sidebar.button('submit'):
       ax[1].bar(oi.index, oi['CALLS_Chng_in_OI'], color='blue', width=20)
       ax[1].bar(oi.index - 10, oi['PUTS_Chng_in_OI'], color='red', width=20)
       ax[1].axvline(x=cmp, color='black', linestyle='--')
-      # ax[1].set_title('Change in OI')
+      ax[1].set_xlabel('Change in OI')
       st.pyplot(fig)
     if index =="NIFTY":
       
