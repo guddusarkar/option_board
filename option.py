@@ -38,7 +38,7 @@ try:
       oi = o.loc[range[1]:range[0]]
   with tab1:
     st.subheader('Option chain')
-    st.table(oi)
+    st.table(oi.style.highlight_max(axis=0,subset=['CALLS_OI','PUTS_OI','CALLS_Chng_in_OI','PUTS_Chng_in_OI']))
   with tab2:
     
     st.subheader('Open interest analysis')
