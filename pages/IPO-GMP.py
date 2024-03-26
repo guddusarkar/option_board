@@ -3,6 +3,7 @@ import streamlit as st
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
+from datetime import datetime,timedelta
 
 # create titles of the page
 st.title('upcomming :red[IPO] and :gray[GMP]')
@@ -32,6 +33,12 @@ if table:
     df=df.rename(columns={'IPO':'Company'})
     df= df.filter(items=['Company', 'Price', 'GMP(₹)', 'Est Listing','Open', 'Close', 'BoA Dt', 'Listing'])
     df['GMP%'] = df['Est Listing'].str.extract(r'\((.*?)\)')
+    
+    current_date= datetime.now()+timedelta(hours=5, minutes=30)   # current datetime in India
+    df['Listing']= df['Listing'].astype(str) + '-2024' # we should change this every year
+    date_columns=['Listing']
+    df[date_columns] = df[date_columns].apply(pd.to_datetime,format="%d-%b-%Y")
+    df = df.loc[(df['Listing'] >= current_date)]
     df= df.dropna()
     
     # Print the DataFrame streamlit page
