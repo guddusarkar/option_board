@@ -35,13 +35,13 @@ if table:
     df['GMP%'] = df['Est Listing'].str.extract(r'\((.*?)\)')
     
     current_date= datetime.now()+timedelta(hours=5, minutes=30)   # current datetime in India
-    df['Listing']= df['Listing'].astype(str) + '-' + str(current_date.year) # we should change this every year
-    date_columns=['Listing']
-    df[date_columns] = df[date_columns].apply(pd.to_datetime,format="%d-%b-%Y")
+    
+    df['Listing']= df['Listing'].astype(str) + '-' + str(current_date.year)
+    df['Listing'] = df['Listing'].apply(pd.to_datetime,format="%d-%b-%Y")
     df = df.loc[(df['Listing'] >= current_date)]
     df= df.dropna()
     
     # Print the DataFrame streamlit page
     st.table(df)
 else:
-    st.text("No table found")
+    st.text("No upcomming available")
