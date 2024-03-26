@@ -33,13 +33,13 @@ if table:
     df=df.rename(columns={'IPO':'Company'})
     df= df.filter(items=['Company', 'Price', 'GMP(₹)', 'Est Listing','Open', 'Close', 'BoA Dt', 'Listing'])
     df['GMP%'] = df['Est Listing'].str.extract(r'\((.*?)\)')
-    
+    df= df.dropna()
     current_date= datetime.now()+timedelta(hours=5, minutes=30)   # current datetime in India
     
     df['Listing']= df['Listing'].astype(str) + '-' + str(current_date.year)
     df['Listing'] = df['Listing'].apply(pd.to_datetime,format="%d-%b-%Y")
     df = df.loc[(df['Listing'] >= current_date)]
-    df= df.dropna()
+    
     
     # Print the DataFrame streamlit page
     st.table(df)
