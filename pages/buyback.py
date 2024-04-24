@@ -33,7 +33,7 @@ if table:
 
     # Convert the table data into a DataFrame
     df = pd.DataFrame(table_data[1:], columns=table_data[0])
-    df=df.drop(columns='Compare')
+    df=df.drop(columns='Compare','Buyback Type')
     date_col=['Record Date', 'Issue Open', 'Issue Close']
     num_col=['BuyBack price (Per Share)','Current Market Price','Issue Size - Shares (Cr)']
     df[date_col] = df[date_col].apply(pd.to_datetime)
