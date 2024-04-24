@@ -45,8 +45,7 @@ if table:
     df.style.bar(subset=['Issue Size - Shares (Cr)','expected Profit'],color='#5fba7d',height=30)
     pd.set_option('display.expand_frame_repr', False)
     # Print the DataFrame in streamlit as table
-    st.table(df)
-    st.text("NA = Date not published")
+    st.dataframe(df,hide_index= True)
     st.write('* in calculation of Expected Profit we ignore application and others charges')
 else:
     st.text("No table found on the website.")
