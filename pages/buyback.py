@@ -43,9 +43,10 @@ if table:
     df = df.loc[(df['Record Date'] >= current_date-timedelta(days=30)) | (df['Record Date'].isna())]
     df.fillna('Not Published', inplace=True)
     df.style.bar(subset=['Issue Size - Shares (Cr)','expected Profit'],color='#5fba7d',height=30)
+    df=df.set_index('Company Name")
     pd.set_option('display.expand_frame_repr', False)
     # Print the DataFrame in streamlit as table
-    st.dataframe(df,hide_index= True, use_container_width= True)
+    st.table(df)
     st.write('* in calculation of Expected Profit we ignore application and others charges')
 else:
     st.text("No table found on the website.")
