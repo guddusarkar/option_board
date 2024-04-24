@@ -47,6 +47,6 @@ if table:
     pd.set_option('display.expand_frame_repr', False)
     # Print the DataFrame in streamlit as table
     st.table(df)
-    st.write('* in calculation of Expected Profit we ignore application and others charges')
+    st.write('* in calculation of :blue[Expected Profit] we ignore application and others charges')
 else:
     st.text("No table found on the website.")
