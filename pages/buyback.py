@@ -41,6 +41,8 @@ if table:
     df['expected Profit']=df['BuyBack price (Per Share)']-df['Current Market Price']
     current_date= datetime.now()+timedelta(hours=5, minutes=30)
     df = df.loc[(df['Record Date'] >= current_date-timedelta(days=30)) | (df['Record Date'].isna())]
+    df.fillna('Not Published', inplace=True)
+    df.style.bar(subset=['Issue Size - Shares (Cr)','expected Profit'],color='#5fba7d',height=30)
     pd.set_option('display.expand_frame_repr', False)
     # Print the DataFrame in streamlit as table
     st.table(df)
