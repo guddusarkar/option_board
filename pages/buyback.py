@@ -44,6 +44,6 @@ if table:
     pd.set_option('display.expand_frame_repr', False)
     # Print the DataFrame in streamlit as table
     st.table(df)
-    st.text("NaT = Date not published")
+    st.text("NA = Date not published")
 else:
     st.text("No table found on the website.")
