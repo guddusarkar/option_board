@@ -2,6 +2,7 @@
 import streamlit as st
 import requests
 import pandas as pd
+from datetime import datetime,timedelta
 from bs4 import BeautifulSoup
 
 
@@ -33,7 +34,16 @@ if table:
     # Convert the table data into a DataFrame
     df = pd.DataFrame(table_data[1:], columns=table_data[0])
     df=df.drop(columns='Compare')
+    date_col=['Record Date', 'Issue Open', 'Issue Close']
+    num_col=['BuyBack price (Per Share)','Current Market Price','Issue Size - Shares (Cr)']
+    df[date_col] = df[date_col].apply(pd.to_datetime)
+    df[num_col]=df[num_col].astype(float)
+    df['expected Profit']=df['BuyBack price (Per Share)']-df['Current Market Price']
+    current_date= datetime.now()+timedelta(hours=5, minutes=30)
+    df = df.loc[(df['Record Date'] >= current_date-timedelta(days=30)) | (df['Record Date'].isna())]
+    pd.set_option('display.expand_frame_repr', False)
     # Print the DataFrame in streamlit as table
     st.table(df)
+    st.text("NaT = Date not published")
 else:
     st.text("No table found on the website.")
