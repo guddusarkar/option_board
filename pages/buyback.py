@@ -45,5 +45,6 @@ if table:
     # Print the DataFrame in streamlit as table
     st.table(df)
     st.text("NA = Date not published")
+    st.write('* in calculation of Expected Profit we ignore application and others charges')
 else:
     st.text("No table found on the website.")
