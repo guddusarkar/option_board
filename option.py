@@ -134,8 +134,13 @@ try:
   with tab3:
       st.subheader('Ration Sprade strategy')
       st.table(ratio)
+  # creating importent futters
+  st.write(index)
+  col1, col2= st.columns(2)
+  col1.metric('**Spot price**',cmp)
+  
   pcr= np.round(o.PUTS_OI.sum()/o.CALLS_OI.sum(),2)
-  st.write('**PCR:**',pcr)
-  st.write(index,cmp)
+  col2.metric('**PCR:**',pcr)
+ 
 except:
   st.text('Please select accurate expiry date')
