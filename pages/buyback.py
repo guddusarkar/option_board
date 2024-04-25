@@ -44,7 +44,7 @@ if table:
     df.fillna('Not Published', inplace=True)
     df=df.set_index('Company Name')
     pd.set_option('display.expand_frame_repr', False)
-     new_col=['BuyBack price (Per Share)','Current Market Price','Issue Size - Amount (Cr)','expected Profit']
+    new_col=['BuyBack price (Per Share)','Current Market Price','Issue Size - Amount (Cr)','expected Profit']
     df[new_col]=df[new_col].round(2)
     # Print the DataFrame in streamlit as table
     st.table(df)
