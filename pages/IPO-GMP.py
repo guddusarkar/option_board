@@ -40,8 +40,8 @@ if table:
     df['Listing'] = df['Listing'].apply(pd.to_datetime,format="%d-%b-%Y")
     df = df.loc[(df['Listing'] >= current_date)]
     df=df.set_index('Company')
-    df['Listing'] = df['Listing'].datetime.strftime('%d-%M')
     # Print the DataFrame streamlit page
     st.table(df)
+    st.write(':blue[GMP]= Gray Market Premium, which representing expencted listing gain')
 else:
     st.text("No upcomming available")
