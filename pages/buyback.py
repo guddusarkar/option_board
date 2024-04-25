@@ -35,7 +35,7 @@ if table:
     df = pd.DataFrame(table_data[1:], columns=table_data[0])
     df=df.drop(columns=['Compare','Buyback Type'])
     date_col=['Record Date', 'Issue Open', 'Issue Close']
-    num_col=['BuyBack price (Per Share)','Current Market Price','Issue Size - Shares (Cr)']
+    num_col=['BuyBack price (Per Share)','Current Market Price','Issue Size - Shares (Cr)','Issue Size - Amount (Cr)']
     df[date_col] = df[date_col].apply(pd.to_datetime)
     df[num_col]=df[num_col].astype(float)
     df['expected Profit']=df['BuyBack price (Per Share)']-df['Current Market Price']
@@ -45,9 +45,9 @@ if table:
     df=df.set_index('Company Name')
     pd.set_option('display.expand_frame_repr', False)
     new_col=['BuyBack price (Per Share)','Current Market Price','Issue Size - Amount (Cr)','expected Profit']
-    df[new_col]=df[new_col].round(2)
+    df[new_col]=df[new_col].astype('int')
     # Print the DataFrame in streamlit as table
-    st.table(df.style.bar(subset=['Issue Size - Shares (Cr)'],color='#5fba7d',height=5))
+    st.table(df.style.bar(subset=['Issue Size - Shares (Cr)'],color='#5fba7d',height=25))
     st.write('* in calculation of :blue[Expected Profit] we ignore application and others charges  ** approx charges in Zerodh Rs 30** ')
 else:
     st.text("No table found on the website.")
