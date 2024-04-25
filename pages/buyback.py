@@ -47,7 +47,7 @@ if table:
     new_col=['BuyBack price (Per Share)','Current Market Price','Issue Size - Amount (Cr)','expected Profit']
     df[new_col]=df[new_col].round(2)
     # Print the DataFrame in streamlit as table
-    st.table(df)
+    st.table(df.style.bar(subset=['Issue Size - Shares (Cr)'],color='#5fba7d',height=5))
     st.write('* in calculation of :blue[Expected Profit] we ignore application and others charges  ** approx charges in Zerodh Rs 30** ')
 else:
     st.text("No table found on the website.")
