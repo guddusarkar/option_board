@@ -45,9 +45,9 @@ if table:
     df=df.set_index('Company Name')
     pd.set_option('display.expand_frame_repr', False)
     new_col=['BuyBack price (Per Share)','Current Market Price','Issue Size - Amount (Cr)','expected Profit']
-    df[new_col]=df[new_col].round(0)
+    df[new_col]=df[new_col].round(2)
     # Print the DataFrame in streamlit as table
-    st.write(df)
+    st.dataframe(df, width=1080, height=720)
     st.write('* in calculation of :blue[Expected Profit] we ignore application and others charges  ** approx charges in Zerodh Rs 30** ')
 else:
     st.text("No table found on the website.")
