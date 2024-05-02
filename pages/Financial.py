@@ -1,6 +1,7 @@
 # importing importent libraries
 import pandas as pd
 import streamlit as st
+import matplotlib.pyplot as plt
 
 # creating title and different tabs
 st.title(":blue[Financial] statments")
@@ -26,7 +27,37 @@ with st.sidebar.form('formes'):
                 st.dataframe(tables[1], use_container_width= True, hide_index=True)
             with tab3:
                 st.subheader('Q-o-Q Profit and Loss statment')
-                st.dataframe(tables[0], use_container_width= True, hide_index=True)
+                qpl=st.dataframe(tables[0], use_container_width= True, hide_index=True)
+                #convart data into dataframe
+                qpl= pd.DataFrame(qpl.T)
+                qpl.drop(qpl.index[0], inplace=True)
+                qpl.columns= ['Sales', 'Expenses','Operating Profit', 'OPM%', 'Other income', 'Interest', 'Depreciation', 'PBT', 'Tax%','PAT','EPS','PDF']
+                qpl.drop(columns=['PDF','OPM%'],axis=1, inplace=True)
+
+                #edit some columns
+                nu_col= ['Sales','Expenses','Operating Profit','Other income',	'Interest',	'Depreciation',	'PBT','PAT']
+                qpl[nu_col]=qpl[nu_col].astype('int')
+                qpl['Growth%']=((qpl.Sales/qpl.Sales.shift(1))-1)*100
+                qpl['OPM%']= (qpl['Operating Profit']/qpl.Sales)*100
+
+                #ploting data
+                col1,col2= st.columns(2)
+                with col1:
+                    plt.figure(figsize=(12,4))
+                    plt.bar(x=qpl.index,height=qpl.Sales,width=0.5)
+                    plt.title('quaterly sales')
+
+                    plt.figure(figsize=(12,4))
+                    plt.bar(x=qpl.index,height=qpl['Operating Profit'],width=0.5)
+                    plt.title('quaterly Operating Profit')
+                with col2:
+                    plt.figure(figsize=(12,4))
+                    plt.bar(x=qpl.index,height=qpl['Growth%'],width=0.5)
+                    plt.title('quaterly Sales Growth')
+
+                    plt.figure(figsize=(12,4))
+                    plt.bar(x=qpl.index,height=qpl['OPM%'],width=0.5)
+                    plt.title('quaterly Operating profit Margin (%)')
             with tab4:
                 st.subheader('Y-o-Y Cash folw statment')
                 st.dataframe(tables[7], use_container_width= True, hide_index=True)
