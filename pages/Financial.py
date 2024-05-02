@@ -46,18 +46,10 @@ with st.sidebar.form('formes'):
                     plt.figure(figsize=(12,4))
                     plt.bar(x=qpl.index,height=qpl.Sales,width=0.5)
                     plt.title('quaterly sales')
-
-                    plt.figure(figsize=(12,4))
-                    plt.bar(x=qpl.index,height=qpl['Operating Profit'],width=0.5)
-                    plt.title('quaterly Operating Profit')
                 with col2:
                     plt.figure(figsize=(12,4))
                     plt.bar(x=qpl.index,height=qpl['Growth%'],width=0.5)
                     plt.title('quaterly Sales Growth')
-
-                    plt.figure(figsize=(12,4))
-                    plt.bar(x=qpl.index,height=qpl['OPM%'],width=0.5)
-                    plt.title('quaterly Operating profit Margin (%)')
             with tab4:
                 st.subheader('Y-o-Y Cash folw statment')
                 st.dataframe(tables[7], use_container_width= True, hide_index=True)
