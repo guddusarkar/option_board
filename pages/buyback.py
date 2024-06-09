@@ -37,7 +37,7 @@ if table:
     date_col=['Record Date', 'Issue Open', 'Issue Close']
     num_col=['BuyBack price (Per Share)','Current Market Price','Issue Size - Shares (Cr)','Issue Size - Amount (Cr)']
     df[date_col] = df[date_col].apply(pd.to_datetime,format='%b %d, %Y')
-    df[num_col]=df[num_col].astype(float)
+    df[num_col]=df[num_col].astype(float, errors='ignore')
     df['expected Profit']=df['BuyBack price (Per Share)']-df['Current Market Price']
     current_date= datetime.now()+timedelta(hours=5, minutes=30)
     df = df.loc[(df['Record Date'] >= current_date-timedelta(days=30)) | (df['Record Date'].isna())]
