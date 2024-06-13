@@ -33,8 +33,8 @@ if table:
     # Print the DataFrame
     st.table(df)
     st.title("upcoming :red[Result]")
-    result= pd.read_html("https://www.livemint.com/market/quarterly-results-calendar")
-    result=result[0].set_incex("STOCKS")
+    result= pd.read_html("https://www.livemint.com/market/quarterly-results-calendar")[0]
+    result=result.set_incex("STOCKS")
     st.table(result)
 else:
     st.text(' ** NOT RESULT ANNOUNCED TODAY**')
