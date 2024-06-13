@@ -7,11 +7,17 @@ import matplotlib.pyplot as plt
 st.title(":blue[Financial] statments")
 tab1, tab2,tab3,tab4,tab5 = st.tabs(["Balance sheet","P&L statment",'Q-o-Q P&L statment', 'cashflow', 'Share holding'])
 
+# read CSV file
+aaa=pd.read_csv("symbol.csv")
+aaa.set_index("Company name",inplace=True)
+
 # creating sidebar and submit button
 with st.sidebar.form('formes'):
-    stock= st.text_input("write Company symble name")
+    company= st.selectbox("write Company symble name",options=aaa.index,index=None)
     submitted = st.form_submit_button("Submit")
     if submitted:
+        stock = aaa["Symbol"][company]
+        code = aaa["BSE Code"][company]
         try:
 
             # fatch the financial data from screener.in website
