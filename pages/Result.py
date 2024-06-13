@@ -34,7 +34,7 @@ if table:
     st.table(df)
     st.title("upcoming :red[Result]")
     result= pd.read_html("https://www.livemint.com/market/quarterly-results-calendar")[0]
-    result=result.set_incex("STOCKS")
+    result.set_index('STOCKS',inplace=True)
     st.table(result)
 else:
     st.text(' ** NOT RESULT ANNOUNCED TODAY**')
