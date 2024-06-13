@@ -24,7 +24,7 @@ with st.sidebar.form('formes'):
             try:
                 tables= pd.read_html(f"https://www.screener.in/company/{stock}/consolidated/")
             except:
-                tables = pd.read_html(f"https://www.screener.in/company/{stock}/")
+                tables = pd.read_html(f"https://www.screener.in/company/{code}/")
             with tab1:
                 st.subheader('Y-o-Y Balance sheet')
                 bs=st.dataframe(tables[6], use_container_width= True, hide_index=True)
