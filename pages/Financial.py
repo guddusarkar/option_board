@@ -22,10 +22,11 @@ with st.sidebar.form('formes'):
 
             # fatch the financial data from screener.in website
             try:
-                tables= pd.read_html(f"https://www.screener.in/company/{stock}/")
+                try:
+                    tables= pd.read_html(f"https://www.screener.in/company/{stock}/")
+                except:
+                    tables = pd.read_html(f"https://www.screener.in/company/{stock}/consolidated/")
             except:
-                tables = pd.read_html(f"https://www.screener.in/company/{stock}/consolidated/")
-            else:
                 tables = pd.read_html(f"https://www.screener.in/company/{code}/")
             with tab1:
                 st.subheader('Y-o-Y Balance sheet')
