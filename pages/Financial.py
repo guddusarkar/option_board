@@ -3,6 +3,13 @@ import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
 
+#configaration of page
+st.set_page_config(
+    page_title="sumancapz",
+    page_icon="💰",
+    layout="wide",
+    initial_sidebar_state="expanded")
+
 # creating title and different tabs
 st.title(":blue[Financial] statments")
 tab1, tab2,tab3,tab4,tab5 = st.tabs(["Balance sheet","P&L statment",'Q-o-Q P&L statment', 'cashflow', 'Share holding'])
