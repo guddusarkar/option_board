@@ -7,6 +7,13 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
+#configaration of page
+st.set_page_config(
+    page_title="sumancapz",
+    page_icon="💰",
+    layout="wide",
+    initial_sidebar_state="expanded")
+
 # add title of the web-app
 st.title(':green[Suman Capz] **Option Dashboard**')
 st.header('option analysis',divider='rainbow')
