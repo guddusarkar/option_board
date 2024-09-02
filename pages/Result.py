@@ -4,6 +4,13 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
+#configaration of page
+st.set_page_config(
+    page_title="sumancapz",
+    page_icon="💰",
+    layout="wide",
+    initial_sidebar_state="expanded")
+
 # adding title of the page
 st.title(':red[Quaterly Result] for :blue[Today]')
 
