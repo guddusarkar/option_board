@@ -37,7 +37,7 @@ if table:
     current_date= datetime.now()+timedelta(hours=5, minutes=30)   # current datetime in India
     
     df['Listing']= df['Listing'].astype(str) + '-' + str(current_date.year)
-    df['Listing'] = df['Listing'].apply(pd.to_datetime,format="%d-%b-%Y",errors='ignore')
+    df['Listing'] = df['Listing'].apply(pd.to_datetime,format="%d-%b-%Y",errors='coerce')
     df = df.loc[(df['Listing'] >= current_date)]
     df=df.set_index('Company')
     df['Listing'] = df['Listing'].dt.strftime('%d-%b')
