@@ -5,6 +5,13 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from datetime import datetime,timedelta
 
+#configaration of page
+st.set_page_config(
+    page_title="sumancapz",
+    page_icon="💰",
+    layout="wide",
+    initial_sidebar_state="expanded")
+
 # create titles of the page
 st.title('upcomming :red[IPO] and :gray[GMP]')
 
