@@ -30,10 +30,10 @@ def nse_urlfetch(url):
   nse_live = r_session.get("http://nseindia.com", headers=header)
   return r_session.get(url, headers=header)
 try:
-  data= nse_urlfetch("https://www.nseindia.com/api/holiday-master?type=trading").json()
-  table= pd.DataFrame(data.get('CM'))
-table.columns= ['Date','Day','Description','SL no']
-table.drop(['SL no'],axis=1,inplace=True)
-st.dataframe(data= table,hide_index=True)
+    data= nse_urlfetch("https://www.nseindia.com/api/holiday-master?type=trading").json()
+    table= pd.DataFrame(data.get('CM'))
+    table.columns= ['Date','Day','Description','SL no']
+    table.drop(['SL no'],axis=1,inplace=True)
+    st.dataframe(data= table,hide_index=True)
 except:
-  st.text('error to fatching data from site')
+    st.text('error to fatching data from site')
