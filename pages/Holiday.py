@@ -33,6 +33,7 @@ try:
   table= pd.DataFrame(data.get('CM'))
   table.columns= ['Date','Day','Description','SL no']
   table.drop(['SL no'],axis=1,inplace=True)
-  st.dataframe(data= table,hide_index=True)
+  table.set_index('Date',inplace=True)  
+  st.table(data= table)
 except:
   st.text('error to fatching data from site')
