@@ -3,6 +3,12 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
+st.set_page_config(
+    page_title="sumancapz",
+    page_icon="💰",
+    layout="wide",
+    initial_sidebar_state="expanded")
+
 # create titles of the page
 st.title(':blue[Financial] freedom :gray[Calculator]')
 
