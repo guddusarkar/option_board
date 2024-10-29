@@ -2,6 +2,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt 
 
 # page configaration
 st.set_page_config(
@@ -11,9 +12,8 @@ st.set_page_config(
     initial_sidebar_state="expanded")
 
 # create titles of the page
-st.title(':blue[Financial] freedom :gray[Calculator]')
+st.title(':blue[Financial] freedom :gray[Calculator:]')
 
-# creating 2 column form 
 col1,col2= st.columns(2) 
 with col1 :
     age= st.select_slider('Current Age :red[*]',help= 'put your current age',options=range(0,101))
@@ -27,12 +27,12 @@ with col2:
     monyhly_expenses= st.number_input('Average monthly expenses :red[*]',help= 'enter your current average monthly expenses (you can put 3 month average expenses).',
                                       placeholder='Monthly average household expenses',value= None)
     Annual_salary_growth = st.select_slider('Annual Income Growth rate (%) :red[*]',help= 'Put you yearly Salary growth',options=range(0,101))
-    inflation_rate= st.number_input('Expencted inflation rate (%) :',help= 'Put WPI or CPI increasing rage. in Indaia inflation rate normally lies between 6% -8%',value=7)
+    inflation_rate= st.number_input('Expected inflation rate (%) :',help= 'Put WPI or CPI increasing rage. in Indaia inflation rate normally lies between 6% -8%',value=7)
     FF_mulipal= st.number_input('Financial Freedom Multiplyer',
                                     help= 'how much multipul amount you need that can take care of you monthly expenses in future. acording to most of the financial advise it should be 30. if you are not satisfied with you current life style and want to increase household expenses, you can consider multilpyer in higher side',
                                     value= 30)
 
-# adding button
+
 if st.button("submit",type="primary"):
     age_of_service = retired_age-age
     annula_salary= monthly_salary*12
@@ -74,15 +74,31 @@ if st.button("submit",type="primary"):
             return ''
     
     if f_data.empty:
-        st.text('You are not able to get Financially free before your retiredment')
+        st.subheader('**You are not able to get Financially free before your retiredment** \U0001F612',divider='rainbow')
     else:
         FF_year=f_data.index.min()
         FF_amount=f_data.iloc[0,5]
         your_age= FF_year + age 
-        st.text(f'you get Financial Freedom after {FF_year} years or your age would be {your_age}')
-        st.text(f'and At that time your net worth would be {FF_amount}')
+        st.subheader(f'you get Financial Freedom after {FF_year} years and your age would be {your_age}  🤑')
+        st.subheader(f'At that time your net worth would be ₹ {FF_amount}  💵💰',divider='rainbow')
+
     st.subheader('Net worth Vs. Financial Freedom Value')
-    st.line_chart(data,y=['net_worth','FF_value'],x_label='year', y_label= 'Amount',color=["#f0f", "#04f"])
+    fig, ax = plt.subplots(figsize=(19, 9))
+    
+    ax.plot(data['net_worth'],label= 'net worth')
+    ax.plot(data['FF_value'], label= 'Freedom value')
+    ax.legend(['Net worth', 'Financial Freedom value'])
+    ax.set_xlabel('Years',labelpad=5,fontsize='xx-large')
+    ax.set_ylabel('Amount',labelpad=5,fontsize='xx-large')
+    try:
+        ax.vlines(FF_year,ymin= 0,ymax= data['net_worth'].max(),linestyles='dashed',label='Financial free year',colors='black')
+        ax.text(2,data['net_worth'].quantile(.95),f'you get Financial Freedom after {FF_year} years',bbox=dict(facecolor='skyblue', alpha=0.5))
+    except:
+        pass
+    
+   
+    st.pyplot(fig,use_container_width=True)
+    # st.line_chart(data,y=['net_worth','FF_value'],x_label='year', y_label= 'Amount',color=["#f0f", "#04f"])
     st.subheader('Detalis information')
     try:
         st.table(final.style.applymap(colour_outliers,subset=['net_worth']))
