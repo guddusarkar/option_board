@@ -1,8 +1,6 @@
 # import all important libraries
-from nselib import derivatives
-from nselib import capital_market
 import matplotlib.pyplot as plt
-from datetime import datetime
+import requests
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -21,34 +19,100 @@ st.header('option analysis',divider='rainbow')
 #create some tab for option analysis
 tab1, tab2,tab3 = st.tabs(["option chain","OI",'Ratio strategy'])
 
+#creathing data fatching engin from NSE website
+default_header = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+}
+header = {
+            "referer": "https://www.nseindia.com/",
+             "Connection": "keep-alive",
+             "Cache-Control": "max-age=0",
+             "DNT": "1",
+             "Upgrade-Insecure-Requests": "1",
+             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+             "Sec-Fetch-User": "?1",
+             "Accept": "ext/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+             "Sec-Fetch-Site": "none",
+             "Sec-Fetch-Mode": "navigate",
+             "Accept-Language": "en-US,en;q=0.9,hi;q=0.8"
+            }
+def nse_urlfetch(url, origin_url="http://nseindia.com"):
+    r_session = requests.session()
+    nse_live = r_session.get(origin_url, headers=default_header)
+    cookies = nse_live.cookies
+    return r_session.get(url, headers=header, cookies=cookies)
+
+def get_nse_option_chain(symbol):
+    """
+    get NSE option chain for the symbol
+    :param symbol: eg:'TCS'/'BANKNIFTY'
+    :return: pandas dataframe
+    """
+
+    origin_url = "https://www.nseindia.com/option-chain"
+    try:
+        payload = nse_urlfetch('https://www.nseindia.com/api/option-chain-indices?symbol=' + symbol,
+                               origin_url=origin_url)
+    except:
+        payload = nse_urlfetch('https://www.nseindia.com/api/option-chain-equities?symbol=' + symbol,
+                               origin_url=origin_url)
+    return payload
+def live_option_chain(index,exp_date):
+  data=get_nse_option_chain(index).json()
+  ce={}
+  pe={}
+  n=0
+  m=0
+  for i in data['records']['data']:
+    if i['expiryDate']==exp_date:
+      try:
+        ce[n]=i['CE']
+        n=n+1
+      except:
+        pass
+      try:
+        pe[m]=i['PE']
+        m=m+1
+      except:
+        pass
+  ce_df= pd.DataFrame.from_dict(ce).transpose()
+  ce_df.columns +='_CE'
+  pe_df= pd.DataFrame.from_dict(pe).transpose()
+  pe_df.columns += '_PE'
+  option=pd.concat([ce_df,pe_df],axis=1)
+  chain=option[['openInterest_CE','changeinOpenInterest_CE','impliedVolatility_CE','lastPrice_CE','strikePrice_CE','openInterest_PE','changeinOpenInterest_PE','impliedVolatility_PE','lastPrice_PE']]
+  chain.columns=['CALLS_OI', 'CALLS_Chng_in_OI','IV_CE','CALLS_LTP','Strike_Price','PUTS_OI','PUTS_Chng_in_OI','IV_PE','PUTS_LTP']
+  return chain
+
 # create side bar to select index instrument and for expiry day selection
 index= st.sidebar.selectbox("select index name",('NIFTY',"BANKNIFTY","FINNIFTY"))
-ex= st.sidebar.selectbox('select expiry date',derivatives.expiry_dates_option_index()[index])
-exp=datetime.strptime(ex,'%d-%b-%Y').strftime('%d-%m-%Y')
+data=get_nse_option_chain(index).json()
+last_update=data['records']['timestamp']
+cmp= data['records']['underlyingValue']
+ex= st.sidebar.selectbox('select expiry date',data['records']['expiryDates'])
 
-#extracting data from nselib library 
+
 try:
-  option=derivatives.nse_live_option_chain(index,exp)
+  option=live_option_chain(index,ex)
   o=option[['CALLS_OI', 'CALLS_Chng_in_OI','CALLS_LTP','Strike_Price','PUTS_LTP','PUTS_Chng_in_OI', 'PUTS_OI']].set_index('Strike_Price')
 
   if index =='NIFTY':
-    cmp=capital_market.market_watch_all_indices().set_index('index').loc['NIFTY 50','last']
     range=(int(np.round(cmp / 50.0)) * 50)+1000,(int(np.round(cmp / 50.0)) * 50)-1000
     oi=o.loc[range[1]:range[0]]
   elif index == 'BANKNIFTY':
-    cmp=capital_market.market_watch_all_indices().set_index('index').loc['NIFTY BANK','last']
     range=(int(np.round(cmp/100.0)) *100)+1500,(int(np.round(cmp / 100.0)) * 100)-1500
     oi=o.loc[range[1]:range[0]]
   else:
-      cmp = capital_market.market_watch_all_indices().set_index('index').loc['NIFTY FINANCIAL SERVICES', 'last']
       range = (int(np.round(cmp / 50.0)) * 50)+900,(int(np.round(cmp / 50.0)) * 50)-900
       oi = o.loc[range[1]:range[0]]
   with tab1:
     st.subheader('Option chain')
+    st.text(f"Last Update : {last_update}")
     st.table(oi.style.highlight_max(axis=0,subset=['CALLS_OI','PUTS_OI','CALLS_Chng_in_OI','PUTS_Chng_in_OI']))
   with tab2:
     
     st.subheader('Open interest analysis')
+    st.text(f"Last Update : {last_update}")
     fig, ax = plt.subplots(2, 1)
     ax[0].bar(oi.index, oi['CALLS_OI'], color='blue', width=20)
     ax[0].bar(oi.index - 10, oi['PUTS_OI'], color='red', width=20)
@@ -140,14 +204,16 @@ try:
     ratio = ratio.style.applymap(color_range)
   with tab3:
       st.subheader('Ration Sprade strategy')
+      st.text(f"Last Update : {last_update}")
       st.table(ratio)
   # creating importent futters
   st.write(index)
-  col1, col2= st.columns(2)
+  col1, col2,col3= st.columns(3,vertical_alignment='top')
   col1.metric('**Spot price**',cmp)
   
   pcr= np.round(o.PUTS_OI.sum()/o.CALLS_OI.sum(),2)
   col2.metric('**PCR:**',pcr)
+  
  
 except:
-  st.text('Please select accurate expiry date')
+  st.text('Please select accurate expiry date')  
