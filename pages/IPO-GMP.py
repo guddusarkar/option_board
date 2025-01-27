@@ -46,8 +46,8 @@ if table:
     df = df[df['Listing Date'] >= current_date]
     df['Listing Date'] = df['Listing Date'].dt.strftime('%d-%b')
     df= df[['Company', 'Price', 'GMP Price','GMP%', 'Est Listing','Open Date', 'Close Date', 'BoA Date', 'Listing Date']]    
-    df=df.set_index('Company')
-    
+    #df=df.set_index('Company')
+    df = df.sort_values(by="Listing Date", ascending=False)
     # Print the DataFrame streamlit page
     st.table(df)
     st.write(':blue[GMP]= Gray Market Premium, which representing expencted listing gain')
