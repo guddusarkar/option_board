@@ -45,7 +45,6 @@ if table:
     current_date= datetime.now()+timedelta(hours=5, minutes=30)   # current datetime in India
     df = df[df['Listing Date'] >= current_date]
     df['Listing Date'] = df['Listing Date'].dt.strftime('%d-%b')
-    df=df.rename(columns={'IPO':'Company'})
     df= df[['Company', 'Price', 'GMP Price','GMP%', 'Est Listing','Open Date', 'Close Date', 'BoA Date', 'Listing Date']]    
     df=df.set_index('Company')
     
