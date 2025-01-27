@@ -47,7 +47,7 @@ if table:
     df['Listing Date'] = df['Listing Date'].dt.strftime('%d-%b')
     df = df[(df['day'] == current_date.day) & (df['month'] == current_date.month)]
     df=df.rename(columns={'IPO':'Company'})
-    df= df.filter(items=['Company', 'Price', 'GMP Price','GMP%', 'Est Listing','Open Date', 'Close Date', 'BoA Date', 'Listing Date'])    
+    df= df[['Company', 'Price', 'GMP Price','GMP%', 'Est Listing','Open Date', 'Close Date', 'BoA Date', 'Listing Date']]    
     df=df.set_index('Company')
     
     # Print the DataFrame streamlit page
