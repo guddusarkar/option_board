@@ -49,7 +49,7 @@ if table:
     #df=df.set_index('Company')
     df = df.sort_values(by="Listing Date", ascending=False)
     # Print the DataFrame streamlit page
-    st.table(df)
+    st.dataframe(df,hide_index)
     st.write(':blue[GMP]= Gray Market Premium, which representing expencted listing gain')
 else:
     st.text("No upcomming available")
