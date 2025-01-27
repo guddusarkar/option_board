@@ -41,11 +41,10 @@ if table:
     df["Company"] = df["IPO"].str.replace(r'(Upcomin|Open|Close).*', '', regex=True)
     df['GMP%'] = df['Est Listing'].str.extract(r'\((.*?)\)')
     df['Listing Date'] = df['Listing Date'].apply(pd.to_datetime,format="%d %b %Y",errors='coerce')
-    df['day']=df['Listing Date'].dt.day
-    df['month']=df['Listing Date'].dt.month
+    
     current_date= datetime.now()+timedelta(hours=5, minutes=30)   # current datetime in India
+    df = df[df['Listing Date'] >= current_date]
     df['Listing Date'] = df['Listing Date'].dt.strftime('%d-%b')
-    df = df[(df['day'] == current_date.day) & (df['month'] == current_date.month)]
     df=df.rename(columns={'IPO':'Company'})
     df= df[['Company', 'Price', 'GMP Price','GMP%', 'Est Listing','Open Date', 'Close Date', 'BoA Date', 'Listing Date']]    
     df=df.set_index('Company')
