@@ -2,7 +2,6 @@
 import streamlit as st
 import requests
 import pandas as pd
-from bs4 import BeautifulSoup
 from datetime import datetime,timedelta
 
 #configaration of page
@@ -15,41 +14,21 @@ st.set_page_config(
 # create titles of the page
 st.title('upcomming :red[IPO] and :gray[GMP]')
 
-# extract data from investorgain.com using requests library
-url1="https://sensexindia.in/calendar/ipo-calendar.aspx"
-d1= requests.get(url1)
 
-# use beautifulsoup to find data table
-ta=BeautifulSoup(d1.content, 'html.parser')
-table = ta.find('table', class_="table table-responsive Sensex_Table_2")
-if table:
-    # Extract data from the table
-    rows = table.find_all('tr')
-    table_data = []
-
-    for row in rows:
-        columns = row.find_all(['td', 'th'])
-        row_data = [column.get_text(strip=True) for column in columns]
-        table_data.append(row_data)
-
-    # Remove any empty rows from the table data
-    table_data = [row for row in table_data if any(row)]
-
-    # Convert the table data into a DataFrame
-    df = pd.DataFrame(table_data[1:], columns=table_data[0])
-    df['IPO/SME']= df['IPO/SME'].apply(lambda x: 'Main Board' if 'IPO' in x else 'SME')
-    df["Company"] = df["IPO"].str.replace(r'(Upcomin|Open|Close).*', '', regex=True)
-    df['GMP%'] = df['Est Listing'].str.extract(r'\((.*?)\)')
-    df['Listing Date'] = df['Listing Date'].apply(pd.to_datetime,format="%d %b %Y",errors='coerce')
-    
-    current_date= datetime.now()+timedelta(hours=5, minutes=30)   # current datetime in India
-    df = df[df['Listing Date'] >= current_date]
-    df['Listing Date'] = df['Listing Date'].dt.strftime('%d-%b')
-    df= df[['Company', 'Price', 'GMP Price','GMP%', 'Est Listing','Open Date', 'Close Date', 'BoA Date', 'Listing Date']]    
-    #df=df.set_index('Company')
-    df = df.sort_values(by="Listing Date", ascending=False)
+try:
+    # extract data from ipodekho.com using requests library
+    gmp= pd.read_html('https://ipodekho.in/ipo-gmp-grey-market-premium/')[0]
+    ipo= pd.read_html('https://ipodekho.in/upcoming-ipo/')[0]
+    ipo[['GMP','Profit']]=gmp[['GMP','Profit']]
+    ipo["Company"] = ipo["Name"].str.replace(r'(Upcomin|Live|Last|Listed).*', '', regex=True)
+    ipo['Close'] = ipo['Close'].apply(pd.to_datetime,format="%d %b, %Y",errors='coerce')
+    current_date= datetime.now()-timedelta(days=5) # 5 day before current date
+    ipo=ipo[ipo['Close']>=current_date]
+    ipo['Close'] = ipo['Close'].dt.strftime('%d %b, %Y')
+    df=ipo[["Company","Type","Open","Close","GMP","Profit","Lot Price"]]#.set_index('Company')
+    df = df.sort_values(by="Close", ascending=False)
     # Print the DataFrame streamlit page
     st.dataframe(df,hide_index= True)
     st.write(':blue[GMP]= Gray Market Premium, which representing expencted listing gain')
-else:
+except:
     st.text("No upcomming available")
