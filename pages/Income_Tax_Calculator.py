@@ -66,7 +66,7 @@ with deduction:
     ccd=st.number_input("80CCD(1b): diposit into NPS",value=0,max_value= 50000)
     self_d= st.number_input("80D: Self", value=0, max_value= 25000,placeholder= "self, spouse and children insurance primium and expenses",help="up to 25,000/- for health insurance primium and 5,000/- for preventive checkup")
     parents_d= st.number_input("80D: Parents", value=0, max_value= 50000,placeholder= "parents insurance primium or heath expenses",help="up to age 60 maximm 25,000 on primium and 5,000 preventive checkup. for above 60 insurance or preventive care up to 50,000/-")
-    tta=st.number_input("80TTA: Saving bank interest deduction", value=0, max_value= 10000,placeholder= "interest deduction applicable up to 10,000/- age below 60",help="1. 10,000 \n 2. actual saving bank interest \n which ever is less")
+    tta=st.number_input("80TTA: Saving bank interest deduction", value=0, max_value= 10000,placeholder= "interest deduction applicable up to 10,000/- age below 60")
     g=st.number_input("80G : Donation",format="%0.0f",placeholder= "Deduction amout",help="for National Charitable trust 100% deduction allowd and other registered caritable trast 50% deduction allowed")
     o_d= st.number_input("Others deduction U/S-80",format="%0.0f",placeholder= "any other deduction allowed under any subsection of 80")  
 # static data
