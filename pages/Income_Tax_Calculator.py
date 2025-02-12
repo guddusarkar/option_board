@@ -52,7 +52,7 @@ with capital:
 with other:
     st.header("Income from :blue[Other source]",divider= True)
     st.markdown("Taxable @ :red[slab rate]")
-    sbi= st.number_input("saving bank Interest", format="%0.0f", placeholder="as per bank statment")
+    sbi= st.number_input("saving bank Interest",value=0, format="%0.0f", placeholder="as per bank statment")
     fd= st.number_input("Fixed dipost Interest", format="%0.0f", placeholder="all realised and accural interest on dipost in bank or post office")
     div= st.number_input("Dividend Income", format="%0.0f", placeholder="all equity share dividend as per dividend statment by broker")
     o_in= st.number_input("any other income", format="%0.0f", placeholder="any other income chargable @ slab rate line- pension")
