@@ -34,15 +34,15 @@ for row in table.find_all("tr")[1:]:  # Skip header row
         data.append([company, open_date, close_date, size, link])
 
 # Create DataFrame
-df = pd.DataFrame(data, columns=["Company", "Open", "Close", "Size", "URL"])
+#df = pd.DataFrame(data, columns=["Company", "Open", "Close", "Size", "URL"])
 
 # Display DataFrame
-if df.shape[0]>7:
-    df= df[:7]
-else: df
+#if df.shape[0]>7:
+#    df= df[:7]
+#else: df
 # display the table in streamlit page
-formats = {'URL': st.column_config.LinkColumn("Details",validate="^https://.+$",display_text="click")}
-st.dataframe(df,hide_index=True,column_config=formats)
+formats = {"4": st.column_config.LinkColumn("Details",validate="^https://.+$",display_text="suman")}
+st.dataframe(data,hide_index=True,column_config=formats)
 # provide some details about NCD and selection process
 st.divider()
 st.subheader("What is Non Convertible Debentures (NCDs)?")
