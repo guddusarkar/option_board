@@ -41,9 +41,9 @@ if df.shape[0]>7:
     df= df[:7]
 else: df
 # display the table in streamlit page
-st.data_editor(df,hide_index=True,column_config={
+st.dataframe(df,hide_index=True,column_config={
     "URL":st.column_config.LinkColumn(
-            "Details", display_text="Link"),
+            "Details", display_text="Link")
 })
 # provide some details about NCD and selection process
 st.divider()
