@@ -3,8 +3,6 @@ import requests
 import streamlit as st 
 from bs4 import BeautifulSoup
 import pandas as pd
-# page header
-st.header(":blue[Current] :red[NCD]s (**Non Convertible Debentures**)")
 
 # page configaration
 st.set_page_config(
@@ -12,6 +10,9 @@ st.set_page_config(
     page_icon="💰",
     layout="wide",
     initial_sidebar_state="expanded")
+
+# page header
+st.header(":blue[Current] :red[NCD]s (**Non Convertible Debentures**)")
 
 # fatch data from ipowatch.com and create table
 url='https://ipowatch.in/latest-ncd-issue-bonds-india/'
