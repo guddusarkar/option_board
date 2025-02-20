@@ -41,10 +41,8 @@ if df.shape[0]>7:
     df= df[:7]
 else: df
 # display the table in streamlit page
-st.dataframe(df,hide_index=True,column_config={
-    "URL":st.column_config.LinkColumn(
-            "Details", display_text="Link")
-})
+formats = {'URL': st.column_config.LinkColumn("Details", display_text="click")}
+st.dataframe(df,hide_index=True,column_config=formats)
 # provide some details about NCD and selection process
 st.divider()
 st.subheader("What is Non Convertible Debentures (NCDs)?")
