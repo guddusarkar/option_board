@@ -41,12 +41,12 @@ if df.shape[0]>7:
     df= df[:7]
 else: df
 # display the table in streamlit page
-df["URL"] = df["URL"].apply(lambda x: f"[Click Here]({x})")
+#df["URL"] = df["URL"].apply(lambda x: f"[Click Here]({x})")
 
 # Display DataFrame as a Markdown table (preserves hyperlinks)
-st.markdown(df.to_markdown(index=False), unsafe_allow_html=True)
+#st.markdown(df.to_markdown(index=False), unsafe_allow_html=True)
 #formats = {"URL": st.column_config.LinkColumn("Details",validate="^https://.+$")}
-#st.dataframe(df,hide_index=True,column_config=formats)
+st.dataframe(df,hide_index=True,column_config=formats)
 # provide some details about NCD and selection process
 st.divider()
 st.subheader("What is Non Convertible Debentures (NCDs)?")
