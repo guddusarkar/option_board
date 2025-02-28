@@ -45,7 +45,7 @@ else: df
 
 # Display DataFrame as a Markdown table (preserves hyperlinks)
 #st.markdown(df.to_markdown(index=False), unsafe_allow_html=True)
-#formats = {"URL": st.column_config.LinkColumn("Details",validate="^https://.+$")}
+formats = {"URL": st.column_config.LinkColumn("Details",validate="^https://.+$")}
 st.dataframe(df,hide_index=True,column_config=formats)
 # provide some details about NCD and selection process
 st.divider()
