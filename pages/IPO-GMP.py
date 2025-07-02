@@ -1,6 +1,5 @@
 # install importent libraries
 import streamlit as st
-import requests
 import pandas as pd
 from datetime import datetime,timedelta
 
@@ -19,16 +18,16 @@ try:
     # extract data from ipodekho.com using requests library
     gmp= pd.read_html('https://ipodekho.in/ipo-gmp-grey-market-premium/')[0]
     ipo= pd.read_html('https://ipodekho.in/upcoming-ipo/')[0]
-    ipo[['GMP','Profit']]=gmp[['GMP','Profit']]
-    ipo["Company"] = ipo["Name"].str.replace(r'(Upcomin|Live|Last|Listed).*', '', regex=True)
+    ipo[['GMP','Profit %']]=gmp[['GMP','Profit %']]
+    ipo["Company"] = ipo["Name"].str.replace(r'(Upcomin|Live|Last|List|Allotment).*', '', regex=True)
     ipo['Close'] = ipo['Close'].apply(pd.to_datetime,format="%d %b, %Y",errors='coerce')
     current_date= datetime.now()-timedelta(days=5) # 5 day before current date
     ipo=ipo[ipo['Close']>=current_date]
     ipo['Close'] = ipo['Close'].dt.strftime('%d %b, %Y')
-    df=ipo[["Company","Type","Open","Close","GMP","Profit","Lot Price"]]#.set_index('Company')
+    df=ipo[["Company","Type","Open","Close","GMP","Profit %","Lot Price"]]#.set_index('Company')
     df = df.sort_values(by="Close", ascending=False)
     # Print the DataFrame streamlit page
     st.dataframe(df,hide_index= True)
     st.write(':blue[GMP]= Gray Market Premium, which representing expencted listing gain')
 except:
-    st.text("No upcomming available")
+    st.text("No upcomming IPO available")
