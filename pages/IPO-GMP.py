@@ -18,7 +18,7 @@ try:
     # extract data from ipodekho.com using requests library
     gmp= pd.read_html('https://ipodekho.in/ipo-gmp-grey-market-premium/')[0]
     ipo= pd.read_html('https://ipodekho.in/')[0]
-    ipo[['GMP','Profit %']]=gmp[['GMP','Profit %']]
+    ipo[['GMP','Profit %']]=gmp[['GMP','Profit']]
     ipo["Company"] = ipo["IPO Name"].str.replace(r'(Upcomin|Live|Last|List|Waiting|Allotment).*', '', regex=True)
     ipo['Close'] = ipo['Close'].apply(pd.to_datetime,format="%d %b, %Y",errors='coerce')
     current_date= datetime.now()-timedelta(days=5) # 5 day before current date
