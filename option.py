@@ -208,7 +208,7 @@ try:
       st.table(ratio)
   # creating importent futters
   st.write(index)
-  col1, col2,col3= st.columns(3,vertical_alignment='top')
+  col1, col2= st.columns(2,vertical_alignment='top')
   col1.metric('**Spot price**',cmp)
   
   pcr= np.round(o.PUTS_OI.sum()/o.CALLS_OI.sum(),2)
@@ -217,3 +217,4 @@ try:
  
 except:
   st.text('Please select accurate expiry date')  
+
