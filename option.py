@@ -42,39 +42,57 @@ def nse_urlfetch(url, origin_url="http://nseindia.com"):
     cookies = nse_live.cookies
     return r_session.get(url, headers=header, cookies=cookies)
 
-def get_nse_option_chain(symbol):
+def expiry_data(symbol):
     """
-    get NSE option chain for the symbol
+    get NSE option expiry datesfor the symbol
+    :param symbol: eg:'TCS'/'BANKNIFTY'
+    :return: list of expiry dates
+    """
+
+    origin_url = "https://www.nseindia.com/option-chain"
+    exp = nse_urlfetch('https://www.nseindia.com/api/option-chain-contract-info?symbol=' + symbol,
+                               origin_url=origin_url).json()
+    return exp['expiryDates']
+def time_price(index):
+    """
+    get update time and price for the symbol
     :param symbol: eg:'TCS'/'BANKNIFTY'
     :return: pandas dataframe
     """
 
     origin_url = "https://www.nseindia.com/option-chain"
     try:
-        payload = nse_urlfetch('https://www.nseindia.com/api/option-chain-indices?symbol=' + symbol,
-                               origin_url=origin_url)
+        payload = nse_urlfetch(f'https://www.nseindia.com/api/option-chain-v3?type=Indices&symbol={index}&expiry={expiry_data(index)[0]}',
+                                origin_url=origin_url).json()
     except:
-        payload = nse_urlfetch('https://www.nseindia.com/api/option-chain-equities?symbol=' + symbol,
-                               origin_url=origin_url)
-    return payload
+        payload = nse_urlfetch(f'https://www.nseindia.com/api/option-chain-v3?type=Equity&symbol={index}&expiry={expiry_data(index)[0]}',
+                                origin_url=origin_url).json()
+    return payload['records']['timestamp'], payload['records']['underlyingValue']
 def live_option_chain(index,exp_date):
-  data=get_nse_option_chain(index).json()
+  origin_url = "https://www.nseindia.com/option-chain"
+  try:
+      data = nse_urlfetch(f'https://www.nseindia.com/api/option-chain-v3?type=Indices&symbol={index}&expiry={exp_date}',
+                              origin_url=origin_url).json()
+  except:
+      data = nse_urlfetch(f'https://www.nseindia.com/api/option-chain-v3?type=Equity&symbol={index}&expiry={exp_date}',
+                               origin_url=origin_url).json()
+  
   ce={}
   pe={}
   n=0
   m=0
   for i in data['records']['data']:
-    if i['expiryDate']==exp_date:
-      try:
-        ce[n]=i['CE']
-        n=n+1
-      except:
-        pass
-      try:
-        pe[m]=i['PE']
-        m=m+1
-      except:
-        pass
+    # if i['expiryDate']==exp_date:
+    try:
+      ce[n]=i['CE']
+      n=n+1
+    except:
+      pass
+    try:
+      pe[m]=i['PE']
+      m=m+1
+    except:
+      pass
   ce_df= pd.DataFrame.from_dict(ce).transpose()
   ce_df.columns +='_CE'
   pe_df= pd.DataFrame.from_dict(pe).transpose()
@@ -84,12 +102,11 @@ def live_option_chain(index,exp_date):
   chain.columns=['CALLS_OI', 'CALLS_Chng_in_OI','IV_CE','CALLS_LTP','Strike_Price','PUTS_OI','PUTS_Chng_in_OI','IV_PE','PUTS_LTP']
   return chain
 
-# create side bar to select index instrument and for expiry day selection
-index= st.sidebar.selectbox("select index name",('NIFTY',"BANKNIFTY","FINNIFTY"))
-data=get_nse_option_chain(index).json()
-last_update=data['records']['timestamp']
-cmp= data['records']['underlyingValue']
-ex= st.sidebar.selectbox('select expiry date',data['records']['expiryDates'])
+# create bar to select index instrument and for expiry day selection
+c1, c2= st.columns(2)
+index= c1.selectbox("select index name",('NIFTY',"BANKNIFTY","FINNIFTY"))
+last_update, cmp =time_price(index)
+ex= c2.selectbox('select expiry date',expiry_data(index))
 
 
 try:
@@ -208,7 +225,7 @@ try:
       st.table(ratio)
   # creating importent futters
   st.write(index)
-  col1, col2= st.columns(2,vertical_alignment='top')
+  col1, col2= st.columns(2) #,vertical_alignment='top'
   col1.metric('**Spot price**',cmp)
   
   pcr= np.round(o.PUTS_OI.sum()/o.CALLS_OI.sum(),2)
@@ -217,4 +234,5 @@ try:
  
 except:
   st.text('Please select accurate expiry date')  
+
 
