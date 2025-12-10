@@ -1,22 +1,22 @@
 # option_analysis
-it is a interactive dashboard for index option trader which is created on streamlit library 
-in this app trader can see Nifty, BankNifty and Finnifty option chain and analyse the data by OI (Open Interest) chart.
-show some low risk Ratio sprade strategy 
-with option analysis page this website also have othe srock market related information like Buy-back, IPO, any companies financial information and recent result announcement. 
+It is an interactive dashboard for index option traders, which is created on Streamlit library 
+in this app, traders can see Nifty, BankNifty and Finnifty option chain and analyse the data by OI (Open Interest) chart.
+show some low-risk Ratio spread strategy 
+with option analysis page, this website also has other stock market-related information like Buy-back, IPO, any company's financial information and recent result announcements. 
 
 # Data collection 
-all the option data has collected from nse India official website, screener.in and economics times India wibsite. so I thank to API creator and website handelar. 
-and also streamlit because without streamlit this kind of webapp creation is impossible.
-# Featurs:
+All the option data has been collected from nse India official website, screener.in and Economic Times India website. I thank to API creator and website handlers. 
+and also streamlit, because without Streamlit, this kind of web app creation is impossible.
+# Features:
 1. Option chain data along with OI chart and Ratio spread strategy filter.
 2. Financial statement of any company
 3. Financial Freedom calculator: which helps you to find the age and financial freedom magic number.
-4. Live IPO and GMP (Gray market Primium) information.
-5. Income Tax Calculator: which helps to compair old or new which regime best for you.
-6. Live NCD (Non-convertible Debenture) information: the instrument that better than a fixed deposit.
-7. today day and upcoming week's companies result announcement information.
+4. Live IPO and GMP (Grey market Primium) information.
+5. Income Tax Calculator: which helps to compare old or new which regime best for you.
+6. Live NCD (Non-convertible Debenture) information: the instrument is better than a fixed deposit.
+7. today day and upcoming week's companies' result announcement information.
 
-# furure Objective
-in future we want to add 1. option gteeks 2. different option strategy payoff graph.
+# future Objective
+in future we want to add 1. option Greeks 2. different option strategy payoff graph.
 
 ___x___
