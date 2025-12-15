@@ -16,8 +16,6 @@ st.set_page_config(
 st.title(':green[Suman Capz] **Option Dashboard**')
 st.header('option analysis',divider='rainbow')
 
-#create some tab for option analysis
-tab1, tab2,tab3 = st.tabs(["option chain","OI",'Ratio strategy'])
 
 #creathing data fatching engin from NSE website
 default_header = {
@@ -108,6 +106,8 @@ index= c1.selectbox("select index name",('NIFTY',"BANKNIFTY","FINNIFTY"))
 last_update, cmp =time_price(index)
 ex= c2.selectbox('select expiry date',expiry_data(index))
 
+#create some tab for option analysis
+tab1, tab2,tab3 = st.tabs(["option chain","OI",'Ratio strategy'])
 
 try:
   option=live_option_chain(index,ex)
@@ -234,5 +234,6 @@ try:
  
 except:
   st.text('Please select accurate expiry date')  
+
 
 
