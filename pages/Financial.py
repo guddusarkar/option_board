@@ -71,6 +71,6 @@ with st.sidebar.form('formes'):
                 cf=st.dataframe(tables[7], use_container_width= True, hide_index=True)
             with tab5:
                 st.subheader('Owner Share holding Pattern')
-                sh=st.dataframe(tables[9], use_container_width= True, hide_index=True)
+                sh=st.dataframe(tables[10], use_container_width= True, hide_index=True)
         except:
             st.text('please write correct symble')
